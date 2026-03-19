@@ -60,19 +60,6 @@ class Map : GameObject
     private int width;
     private int height;
 
-    string[] tile1 = {
-    "##########",
-    "#S.......#",
-    "#........#",
-    "#........#",
-    "#........#",
-    "#........#",
-    "#........#",
-    "#........#",
-    "#.......$#",
-    "##########",
-    };
-
     public Map(Scene scene) : base(scene)
     {
         this.width = 20;
@@ -188,7 +175,7 @@ public class MyGame : GameApp
 {
     private readonly SceneManager<Scene> _scenes;
 
-    public MyGame() : base(60, 30)
+    public MyGame() : base(40, 20)
     {
         _scenes = new SceneManager<Scene>();
     }

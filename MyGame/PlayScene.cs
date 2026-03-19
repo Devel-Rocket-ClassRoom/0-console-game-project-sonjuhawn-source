@@ -17,6 +17,19 @@ namespace Framework.MyGame
         {
             _score = 0;
             _gameOver = false;
+
+            string[] tile1 = {
+            "##########",
+            "#S.......#",
+            "#........#",
+            "#........#",
+            "#........#",
+            "#........#",
+            "#........#",
+            "#........#",
+            "#.......$#",
+            "##########",
+            };
         }
 
         public override void Update(float deltaTime)
