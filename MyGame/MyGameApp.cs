@@ -1,29 +1,31 @@
 ﻿using Framework.Engine;
 using Framework.MyGame;
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 class Player : GameObject
 {
     private int x, y;
-    public Player(Scene scene, int x, int y) : base(scene)
+    Map map;
+    public Player(Scene scene, Map map, int x, int y) : base(scene)
     {
         this.x = x;
         this.y = y;
+        this.map = map;
     }
 
     void Slice(int x, int y)
     {
-        int dx = x + this.x;
-        int dy = y + this.y;
-
         while (true)
         {
-            if (true /*벽에 닿을경우*/)
+            int dx = x + this.x;
+            int dy = y + this.y;
+            if (map.IsWall(dx, dy)/*벽에 도달시 탈출*/)
             {
                 break;
             }
-            x = dx;
-            y = dy;
+            this.x = dx;
+            this.y = dy;
         }
     }
     public override void Update(float deltaTime)
@@ -66,7 +68,6 @@ class Map
         tiles = new TileType[width, height];
 
         Create();
-
     }
 
     void Create()
@@ -88,7 +89,16 @@ class Map
             tiles[0, y] = TileType.Wall;
             tiles[width - 1, y] = TileType.Wall;
         }
+        int a = Random.Shared.Next(0, width - 1);
+        int b = Random.Shared.Next(0, height - 1);
+        tiles[a, b] = TileType.Goal;
+        
+        Random ranx = new Random();
 
+    }
+    public bool IsWall(int x, int y)
+    {
+        return tiles[x,y] == TileType.Wall;
     }
 
     public void Draw(ScreenBuffer buffer)
