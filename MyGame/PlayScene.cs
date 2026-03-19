@@ -49,6 +49,7 @@ namespace Framework.MyGame
 
             // 게임 로직...
             map.player.Update(deltaTime);
+            _score = map.player.Count;
             
         }
 

@@ -5,6 +5,13 @@ using System;
 class Player : GameObject
 {
     private int x, y;
+    private int dirX = 0;
+    private int dirY = 0;
+    private int count = 0;
+    public int Count => count;
+    private float moveTimer = 0f;
+    private float moveDelay = 0.07f;
+    private bool moving = false;
     Map map;
     public Player(Scene scene, Map map, int x, int y) : base(scene)
     {
@@ -13,37 +20,56 @@ class Player : GameObject
         this.map = map;
     }
 
-    void Slice(int x, int y)
+    private void StartMove(int dx, int dy)
     {
-        while (true)
+        dirX = dx;
+        dirY = dy;
+        moving = true;
+    }
+    private void MoveStep()
+    {
+        int nx = x + dirX;
+        int ny = y + dirY;
+
+        // 다음 칸이 벽이면 멈춤
+        if (map.IsWall(nx, ny))
         {
-            int dx = x + this.x;
-            int dy = y + this.y;
-            if (map.IsWall(dx, dy)/*벽에 도달시 탈출*/)
-            {
-                break;
-            }
-            this.x = dx;
-            this.y = dy;
+            moving = false;
+            return;
         }
+        x = nx;
+        y = ny;
     }
     public override void Update(float deltaTime)
     {
-        if (Input.IsKeyDown(ConsoleKey.UpArrow))
+        if (!moving)
         {
-            Slice(0, -1);
+            if (Input.IsKeyDown(ConsoleKey.UpArrow))
+            {
+                StartMove(0, -1);
+            }
+            if (Input.IsKeyDown(ConsoleKey.DownArrow))
+            {
+                StartMove(0, 1);
+            }
+            if (Input.IsKeyDown(ConsoleKey.RightArrow))
+            {
+                StartMove(1, 0);
+            }
+            if (Input.IsKeyDown(ConsoleKey.LeftArrow))
+            {
+                StartMove(-1, 0);
+            }
         }
-        if (Input.IsKeyDown(ConsoleKey.DownArrow))
+        if (moving)
         {
-            Slice(0, 1);
-        }
-        if (Input.IsKeyDown(ConsoleKey.RightArrow))
-        {
-            Slice(1, 0);
-        }
-        if (Input.IsKeyDown(ConsoleKey.LeftArrow))
-        {
-            Slice(-1, 0);
+            moveTimer += deltaTime;
+
+            if (moveTimer >= moveDelay)
+            {
+                moveTimer = 0f;
+                MoveStep();
+            }
         }
     }
 
