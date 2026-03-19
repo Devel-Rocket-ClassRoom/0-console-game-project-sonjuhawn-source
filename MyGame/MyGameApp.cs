@@ -1,145 +1,112 @@
 ﻿using Framework.Engine;
+using Framework.MyGame;
 using System;
+using System.ComponentModel;
 
-namespace Framework.MyGame
+class Player : GameObject
 {
-    class Player : GameObject
+    private int x, y;
+    public Player(Scene scene, int x, int y) : base(scene)
     {
-        private int x, y;
-        public Player(Scene scene, int x, int y) : base(scene)
-        {
-            this.x = x;
-            this.y = y;
-        }
+        this.x = x;
+        this.y = y;
+    }
 
-        public override void Update(float deltaTime)
+    void Slice(int x, int y)
+    {
+        int dx = x + this.x;
+        int dy = y + this.y;
+
+        while (true)
         {
-            if (/*움직이는 동안에는 입력해도 움직일수 없음*/true)
+            if (true /*벽에 닿을경우*/)
             {
-                if (Input.IsKeyDown(ConsoleKey.UpArrow))
-                {
-                    y--;
-                }
-                if (Input.IsKeyDown(ConsoleKey.DownArrow))
-                {
-                    y++;
-                }
-                if (Input.IsKeyDown(ConsoleKey.RightArrow))
-                {
-                    x++;
-                }
-                if (Input.IsKeyDown(ConsoleKey.LeftArrow))
-                {
-                    x--;
-                }
+                break;
             }
+            x=dx;
+            y=dy;
         }
-
-        public override void Draw(ScreenBuffer buffer)
+    }
+    public override void Update(float deltaTime)
+    {
+        if (Input.IsKeyDown(ConsoleKey.UpArrow))
         {
-            buffer.SetCell(x, y, '@', ConsoleColor.White);
+
+        }
+        if (Input.IsKeyDown(ConsoleKey.DownArrow))
+        {
+
+        }
+        if (Input.IsKeyDown(ConsoleKey.RightArrow))
+        {
+
+        }
+        if (Input.IsKeyDown(ConsoleKey.LeftArrow))
+        {
+
         }
     }
 
-    public class Wall : GameObject
+    public override void Draw(ScreenBuffer buffer)
     {
-        private int x, y;
-
-        public Wall(Scene scene, int x, int y) : base(scene)
-        {
-            this.x = x;
-            this.y = y;
-        }
-
-        public override void Update(float deltaTime)
-        {
-            throw new NotImplementedException();
-        }
-        public override void Draw(ScreenBuffer buffer)
-        {
-            buffer.SetCell(x, y, '#', ConsoleColor.Cyan);
-        }
+        buffer.SetCell(x, y, '@', ConsoleColor.White);
     }
-    class Goal : GameObject
+}
+
+class Map
+{
+    Player player;
+
+    private int width;
+    private int height;
+
+    public Map(int width, int height)
     {
-        private int x, y;
+        this.width = width;
+        this.height = height;
+    }
+}
 
-        public Goal(Scene scene, int x, int y) : base(scene)
-        {
-            this.x = x;
-            this.y = y;
-        }
+public class MyGame : GameApp
+{
+    private readonly SceneManager<Scene> _scenes;
 
-        public override void Update(float deltaTime)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Draw(ScreenBuffer buffer)
-        {
-            buffer.SetCell(x, y, '$', ConsoleColor.Magenta);
-        }
+    public MyGame() : base(60, 30)
+    {
+        _scenes = new SceneManager<Scene>();
     }
 
-    class Map
+    protected override void Initialize()
     {
-        Player player;
-        Goal goal;
-        Wall[] wall;
-
-        private int width;
-        private int height;
-
-        public Map(int  width, int height)
-        {
-            this.width = width;
-            this.height = height;
-        }
-
-
+        ChangeToTitle();
     }
 
-    public class MyGame : GameApp
+    protected override void Update(float deltaTime)
     {
-        private readonly SceneManager<Scene> _scenes;
-
-        public MyGame() : base(60, 30)
+        if (Input.IsKeyDown(ConsoleKey.Escape))
         {
-            _scenes = new SceneManager<Scene>();
+            Quit();
+            return;
         }
+        _scenes.CurrentScene?.Update(deltaTime);
+    }
 
-        protected override void Initialize()
-        {
-            ChangeToTitle();
-        }
+    protected override void Draw()
+    {
+        _scenes.CurrentScene?.Draw(Buffer);
+    }
 
-        protected override void Update(float deltaTime)
-        {
-            if (Input.IsKeyDown(ConsoleKey.Escape))
-            {
-                Quit();
-                return;
-            }
-            _scenes.CurrentScene?.Update(deltaTime);
-        }
+    private void ChangeToTitle()
+    {
+        TitleScene title = new TitleScene();
+        title.StartRequested += () => ChangeToPlay();
+        _scenes.ChangeScene(title);
+    }
 
-        protected override void Draw()
-        {
-            _scenes.CurrentScene?.Draw(Buffer);
-        }
-
-        private void ChangeToTitle()
-        {
-            TitleScene title = new TitleScene();
-            title.StartRequested += () => ChangeToPlay();
-            _scenes.ChangeScene(title);
-        }
-
-        private void ChangeToPlay()
-        {
-            PlayScene play = new PlayScene();
-            play.PlayAgainRequested += () => ChangeToPlay();
-            _scenes.ChangeScene(play);
-        }
+    private void ChangeToPlay()
+    {
+        PlayScene play = new PlayScene();
+        play.PlayAgainRequested += () => ChangeToPlay();
+        _scenes.ChangeScene(play);
     }
 }
