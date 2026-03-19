@@ -23,9 +23,8 @@ class Player : GameObject
             {
                 break;
             }
-            else if(true/*골에 도달할 시*/)
+            else if (true/*골에 도달할 시*/)
             {
-
             }
             this.x = dx;
             this.y = dy;
@@ -53,7 +52,7 @@ class Player : GameObject
 
     public override void Draw(ScreenBuffer buffer)
     {
-        buffer.SetCell(x, y, '@', ConsoleColor.White);
+        buffer.SetCell(x + 3, y + 5, '@', ConsoleColor.White);
     }
 }
 
@@ -144,15 +143,15 @@ class Map : GameObject
             {
                 if (tiles[x, y] == TileType.Wall)
                 {
-                    buffer.SetCell(x, y, '#', ConsoleColor.Cyan);
+                    buffer.SetCell(x + 3, y + 5, '#', ConsoleColor.Cyan);
                 }
                 if (tiles[x, y] == TileType.Goal)
                 {
-                    buffer.SetCell(x, y, '$', ConsoleColor.Magenta);
+                    buffer.SetCell(x + 3, y + 5, '$', ConsoleColor.Magenta);
                 }
                 if (tiles[x, y] == TileType.Empty)
                 {
-                    buffer.SetCell(x, y, ' ', ConsoleColor.Magenta);
+                    buffer.SetCell(x + 3, y + 5, ' ', ConsoleColor.Magenta);
                 }
             }
         }
