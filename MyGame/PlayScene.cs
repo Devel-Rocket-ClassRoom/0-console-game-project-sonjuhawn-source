@@ -32,6 +32,7 @@ namespace Framework.MyGame
             }
 
             // 게임 로직...
+            Map map = new Map(30, 30);
         }
 
         public override void Draw(ScreenBuffer buffer)

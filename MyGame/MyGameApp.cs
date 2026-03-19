@@ -30,19 +30,19 @@ class Player : GameObject
     {
         if (Input.IsKeyDown(ConsoleKey.UpArrow))
         {
-
+            Slice(0, 1);
         }
         if (Input.IsKeyDown(ConsoleKey.DownArrow))
         {
-
+            Slice(0, -1);
         }
         if (Input.IsKeyDown(ConsoleKey.RightArrow))
         {
-
+            Slice(1, 0);
         }
         if (Input.IsKeyDown(ConsoleKey.LeftArrow))
         {
-
+            Slice(-1, 0);
         }
     }
 
@@ -74,7 +74,7 @@ class Map
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
-            { 
+            {
                 tiles[x, y] = TileType.Empty;
             }
         }
@@ -83,11 +83,31 @@ class Map
             tiles[x, 0] = TileType.Wall;
             tiles[x, height - 1] = TileType.Wall;
         }
-        for(int y = 0; y < height;)
+        for (int y = 0; y < height; y++)
         {
-            tiles[0,y] = TileType.Wall;
-            tiles[width-1,y] = TileType.Wall;
+            tiles[0, y] = TileType.Wall;
+            tiles[width - 1, y] = TileType.Wall;
         }
+
+    }
+
+    public void Draw(ScreenBuffer buffer)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (tiles[x, y] == TileType.Wall)
+                {
+                    buffer.SetCell(x, y, '#', ConsoleColor.Cyan);
+                }
+                if (tiles[x, y] == TileType.Goal)
+                {
+                    buffer.SetCell(x, y, '$', ConsoleColor.Magenta);
+                }
+            }
+        }
+        player.Draw(buffer);
     }
 }
 
