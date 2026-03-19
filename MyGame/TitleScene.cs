@@ -26,6 +26,7 @@ namespace Framework.MyGame
             buffer.WriteTextCentered(5, "MY GAME", ConsoleColor.Yellow);
             buffer.WriteTextCentered(8, "Press ENTER to Start", ConsoleColor.Gray);
             buffer.WriteTextCentered(10, "Press ESC to Quit", ConsoleColor.DarkGray);
+
         }
 
         public override void Unload()

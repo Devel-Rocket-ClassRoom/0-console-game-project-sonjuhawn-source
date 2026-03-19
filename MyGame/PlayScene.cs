@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Framework.MyGame
 {
+
     public class PlayScene : Scene
     {
         private int _score;

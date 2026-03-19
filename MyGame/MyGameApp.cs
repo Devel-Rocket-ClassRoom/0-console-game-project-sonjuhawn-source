@@ -51,14 +51,13 @@ namespace Framework.MyGame
             this.y = y;
         }
 
-        public override void Draw(ScreenBuffer buffer)
-        {
-            buffer.SetCell(x, y, '#', ConsoleColor.Cyan);
-        }
-
         public override void Update(float deltaTime)
         {
             throw new NotImplementedException();
+        }
+        public override void Draw(ScreenBuffer buffer)
+        {
+            buffer.SetCell(x, y, '#', ConsoleColor.Cyan);
         }
     }
     class Goal : GameObject
@@ -78,10 +77,26 @@ namespace Framework.MyGame
 
         public override void Draw(ScreenBuffer buffer)
         {
-            throw new NotImplementedException();
+            buffer.SetCell(x, y, '$', ConsoleColor.Magenta);
+        }
+    }
+
+    class Map
+    {
+        Player player;
+        Goal goal;
+        Wall[] wall;
+
+        private int width;
+        private int height;
+
+        public Map(int  width, int height)
+        {
+            this.width = width;
+            this.height = height;
         }
 
-        
+
     }
 
     public class MyGame : GameApp
