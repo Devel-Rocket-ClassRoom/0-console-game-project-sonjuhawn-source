@@ -55,7 +55,7 @@ class Player : GameObject
 class Map
 {
     Player player;
-
+    TileType[,] tiles;
     private int width;
     private int height;
 
@@ -63,6 +63,31 @@ class Map
     {
         this.width = width;
         this.height = height;
+        tiles = new TileType[width, height];
+
+        Create();
+
+    }
+
+    void Create()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            { 
+                tiles[x, y] = TileType.Empty;
+            }
+        }
+        for (int x = 0; x < width; x++)
+        {
+            tiles[x, 0] = TileType.Wall;
+            tiles[x, height - 1] = TileType.Wall;
+        }
+        for(int y = 0; y < height;)
+        {
+            tiles[0,y] = TileType.Wall;
+            tiles[width-1,y] = TileType.Wall;
+        }
     }
 }
 
