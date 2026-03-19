@@ -10,6 +10,7 @@ namespace Framework.MyGame
     {
         private int _score;
         private bool _gameOver;
+        private Map map;
 
         public event GameAction PlayAgainRequested;
 
@@ -30,6 +31,9 @@ namespace Framework.MyGame
             "#.......$#",
             "##########",
             };
+
+            map = new Map();
+            map.Create(tile1);
         }
 
         public override void Update(float deltaTime)

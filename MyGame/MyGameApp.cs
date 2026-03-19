@@ -65,11 +65,9 @@ class Map : GameObject
         this.width = 20;
         this.height = 20;
         tiles = new TileType[10, 10];
-
-        Create(tile1);
     }
 
-    void Create(string[] mapData)
+    public void Create(string[] mapData)
     {
         height = mapData.Length;
         width = mapData[0].Length;
