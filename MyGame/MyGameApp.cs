@@ -5,20 +5,102 @@ using System.Text;
 
 namespace Framework.MyGame
 {
-    public abstract class GameApp
+    class Player : GameObject
     {
-        protected GameApp(int width, int height);
+        private int x, y;
+        public Player(Scene scene, int x, int y) : base(scene)
+        {
+            this.x = x;
+            this.y = y;
+        }
 
-        protected ScreenBuffer Buffer { get; }
+        public override void Update(float deltaTime)
+        {
+            if(Input.IsKeyDown(ConsoleKey.UpArrow))
+            {
+                y--;
+            }
+            if (Input.IsKeyDown(ConsoleKey.DownArrow))
+            {
+                y++;
+            }
+            if (Input.IsKeyDown(ConsoleKey.RightArrow))
+            {
+                x++;
+            }
+            if (Input.IsKeyDown(ConsoleKey.LeftArrow))
+            {
+                x--;
+            }
+        }
 
-        public event GameAction GameStarted;
-        public event GameAction GameStopped;
+        public override void Draw(ScreenBuffer buffer)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
-        public void Run();
-        protected void Quit();
+    public class Wall : GameObject
+    {
+        private int x, y;
 
-        protected abstract void Initialize();
-        protected abstract void Update(float deltaTime);
-        protected abstract void Draw();
+        public Wall(Scene scene, int x, int y) : base(scene)
+        {
+            this.x = x;
+            this.y = y;
+        }
+
+        public override void Draw(ScreenBuffer buffer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update(float deltaTime)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class MyGame : GameApp
+    {
+        private readonly SceneManager<Scene> _scenes;
+
+        public MyGame() : base(40, 20)
+        {
+            _scenes = new SceneManager<Scene>();
+        }
+
+        protected override void Initialize()
+        {
+            ChangeToTitle();
+        }
+
+        protected override void Update(float deltaTime)
+        {
+            if (Input.IsKeyDown(ConsoleKey.Escape))
+            {
+                Quit();
+                return;
+            }
+            _scenes.CurrentScene?.Update(deltaTime);
+        }
+
+        protected override void Draw()
+        {
+            _scenes.CurrentScene?.Draw(Buffer);
+        }
+
+        private void ChangeToTitle()
+        {
+            TitleScene title = new TitleScene();
+            title.StartRequested += () => ChangeToPlay();
+            _scenes.ChangeScene(title);
+        }
+
+        private void ChangeToPlay()
+        {
+            PlayScene play = new PlayScene();
+            play.PlayAgainRequested += () => ChangeToPlay();
+            _scenes.ChangeScene(play);
+        }
     }
 }

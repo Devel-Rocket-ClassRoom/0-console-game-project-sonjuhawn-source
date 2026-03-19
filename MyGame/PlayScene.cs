@@ -1,10 +1,49 @@
-﻿using System;
+﻿using Framework.Engine;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Framework.MyGame
 {
-    internal class PlayScene
+    public class PlayScene : Scene
     {
+        private int _score;
+        private bool _gameOver;
+
+        public event GameAction PlayAgainRequested;
+
+        public override void Load()
+        {
+            _score = 0;
+            _gameOver = false;
+        }
+
+        public override void Update(float deltaTime)
+        {
+            if (_gameOver)
+            {
+                if (Input.IsKeyDown(ConsoleKey.Enter))
+                {
+                    PlayAgainRequested?.Invoke();
+                }
+                return;
+            }
+
+            // 게임 로직...
+        }
+
+        public override void Draw(ScreenBuffer buffer)
+        {
+            buffer.WriteText(5, 2, "Score: " + _score, ConsoleColor.White);
+
+            if (_gameOver)
+            {
+                buffer.WriteText(10, 10, "Game Over! Press ENTER", ConsoleColor.Red);
+            }
+        }
+
+        public override void Unload()
+        {
+        }
     }
 }
