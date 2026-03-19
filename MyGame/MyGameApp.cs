@@ -10,7 +10,7 @@ class Player : GameObject
     private int count = 0;
     public int Count => count;
     private float moveTimer = 0f;
-    private float moveDelay = 0.07f;
+    private float moveDelay = 0.04f;
     private bool moving = false;
     Map map;
     public Player(Scene scene, Map map, int x, int y) : base(scene)
