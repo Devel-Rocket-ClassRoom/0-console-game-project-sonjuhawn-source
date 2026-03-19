@@ -1,7 +1,6 @@
 ﻿using Framework.Engine;
 using Framework.MyGame;
 using System;
-using System.ComponentModel;
 
 class Player : GameObject
 {
@@ -23,8 +22,8 @@ class Player : GameObject
             {
                 break;
             }
-            x=dx;
-            y=dy;
+            x = dx;
+            y = dy;
         }
     }
     public override void Update(float deltaTime)
@@ -65,6 +64,13 @@ class Map
         this.width = width;
         this.height = height;
     }
+}
+
+enum TileType
+{
+    Empty,
+    Wall,
+    Goal
 }
 
 public class MyGame : GameApp
