@@ -23,9 +23,6 @@ class Player : GameObject
             {
                 break;
             }
-            else if (true/*골에 도달할 시*/)
-            {
-            }
             this.x = dx;
             this.y = dy;
         }
@@ -34,11 +31,11 @@ class Player : GameObject
     {
         if (Input.IsKeyDown(ConsoleKey.UpArrow))
         {
-            Slice(0, 1);
+            Slice(0, -1);
         }
         if (Input.IsKeyDown(ConsoleKey.DownArrow))
         {
-            Slice(0, -1);
+            Slice(0, 1);
         }
         if (Input.IsKeyDown(ConsoleKey.RightArrow))
         {
@@ -58,7 +55,7 @@ class Player : GameObject
 
 class Map : GameObject
 {
-    Player player;
+    public Player player;
     TileType[,] tiles;
     private int width;
     private int height;
