@@ -17,7 +17,6 @@ namespace Framework.MyGame
         {
             _score = 0;
             _gameOver = false;
-            
         }
 
         public override void Update(float deltaTime)

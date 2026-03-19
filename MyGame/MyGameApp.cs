@@ -1,7 +1,6 @@
 ﻿using Framework.Engine;
 using Framework.MyGame;
 using System;
-using System.Security.Cryptography.X509Certificates;
 
 class Player : GameObject
 {
@@ -54,54 +53,101 @@ class Player : GameObject
     }
 }
 
-class Map
+class Map : GameObject
 {
     Player player;
     TileType[,] tiles;
     private int width;
     private int height;
 
-    public Map(int width, int height)
+    string[] tile1 = {
+    "##########",
+    "#S.......#",
+    "#........#",
+    "#........#",
+    "#........#",
+    "#........#",
+    "#........#",
+    "#........#",
+    "#.......$#",
+    "##########",
+    };
+
+    public Map(Scene scene) : base(scene)
     {
-        this.width = width;
-        this.height = height;
+        this.width = 20;
+        this.height = 20;
+        tiles = new TileType[10, 10];
+
+        Create(tile1);
+    }
+
+    void Create(string[] mapData)
+    {
+        height = mapData.Length;
+        width = mapData[0].Length;
+
         tiles = new TileType[width, height];
 
-        Create();
-    }
-
-    void Create()
-    {
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                tiles[x, y] = TileType.Empty;
-            }
-        }
-        for (int x = 0; x < width; x++)
-        {
-            tiles[x, 0] = TileType.Wall;
-            tiles[x, height - 1] = TileType.Wall;
-        }
         for (int y = 0; y < height; y++)
         {
-            tiles[0, y] = TileType.Wall;
-            tiles[width - 1, y] = TileType.Wall;
-        }
-        int a = Random.Shared.Next(0, width - 1);
-        int b = Random.Shared.Next(0, height - 1);
-        tiles[a, b] = TileType.Goal;
-        
-        Random ranx = new Random();
+            for (int x = 0; x < width; x++)
+            {
+                char c = mapData[y][x];
 
+                switch (c)
+                {
+                    case '#':
+                        tiles[x, y] = TileType.Wall;
+                        break;
+
+                    case '.':
+                        tiles[x, y] = TileType.Empty;
+                        break;
+
+                    case 'S':
+                        tiles[x, y] = TileType.Empty;
+                        player = new Player(null, this, x, y);
+                        break;
+
+                    case '$':
+                        tiles[x, y] = TileType.Goal;
+                        break;
+
+                    default:
+                        tiles[x, y] = TileType.Empty;
+                        break;
+                }
+            }
+        }
     }
+    //void Create()
+    //{
+    //    for (int x = 0; x < width; x++)
+    //    {
+    //        for (int y = 0; y < height; y++)
+    //        {
+    //            tiles[x, y] = TileType.Empty;
+    //        }
+    //    }
+    //    for (int x = 0; x < width; x++)
+    //    {
+    //        tiles[x, 0] = TileType.Wall;
+    //        tiles[x, height - 1] = TileType.Wall;
+    //    }
+    //    for (int y = 0; y < height; y++)
+    //    {
+    //        tiles[0, y] = TileType.Wall;
+    //        tiles[width - 1, y] = TileType.Wall;
+    //    }
+    //}
+
     public bool IsWall(int x, int y)
     {
-        return tiles[x,y] == TileType.Wall;
+        return tiles[x, y] == TileType.Wall;
     }
 
-    public void Draw(ScreenBuffer buffer)
+    public override void Draw(ScreenBuffer buffer)
     {
         for (int x = 0; x < width; x++)
         {
@@ -115,10 +161,20 @@ class Map
                 {
                     buffer.SetCell(x, y, '$', ConsoleColor.Magenta);
                 }
+                if (tiles[x, y] == TileType.Empty)
+                {
+                    buffer.SetCell(x, y, ' ', ConsoleColor.Magenta);
+                }
             }
         }
         player.Draw(buffer);
     }
+
+    public override void Update(float deltaTime)
+    {
+        player.Update(deltaTime);
+    }
+
 }
 
 enum TileType
