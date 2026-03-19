@@ -10,6 +10,8 @@ namespace Framework.MyGame
     {
         private int _score;
         private bool _gameOver;
+        private float _timer = 0f;
+        private bool _timerstart = false;
         private Map map;
 
         public event GameAction PlayAgainRequested;
@@ -38,6 +40,20 @@ namespace Framework.MyGame
 
         public override void Update(float deltaTime)
         {
+            if(Input.IsKeyDown(ConsoleKey.UpArrow)|| Input.IsKeyDown(ConsoleKey.DownArrow)|| Input.IsKeyDown(ConsoleKey.RightArrow)|| Input.IsKeyDown(ConsoleKey.LeftArrow))
+            {
+                if (!_timerstart)
+                {
+                    _timerstart = true;
+                    _timer = 0f;
+                }
+            }
+            if (_timerstart)
+            {
+                _timer += deltaTime;
+                _score = (int)_timer;
+            }
+
             if (_gameOver)
             {
                 if (Input.IsKeyDown(ConsoleKey.Enter))
@@ -49,7 +65,6 @@ namespace Framework.MyGame
 
             // 게임 로직...
             map.player.Update(deltaTime);
-            _score = map.player.Count;
             
         }
 
@@ -58,7 +73,7 @@ namespace Framework.MyGame
             map.Draw(buffer);
 
 
-            buffer.WriteText(5, 2, "Score: " + _score, ConsoleColor.White);
+            buffer.WriteText(5, 2, "Time: " + _score, ConsoleColor.White);
 
             if (_gameOver)
             {
