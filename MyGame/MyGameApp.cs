@@ -60,11 +60,11 @@ class Map : GameObject
     private int width;
     private int height;
 
-    public Map(Scene scene) : base(scene)
+    public Map(Scene scene, int width, int height) : base(scene)
     {
-        this.width = 20;
-        this.height = 20;
-        tiles = new TileType[10, 10];
+        this.width = width;
+        this.height = height;
+        tiles = new TileType[width, height];
     }
 
     public void Create(string[] mapData)
@@ -106,30 +106,13 @@ class Map : GameObject
             }
         }
     }
-    //void Create()
-    //{
-    //    for (int x = 0; x < width; x++)
-    //    {
-    //        for (int y = 0; y < height; y++)
-    //        {
-    //            tiles[x, y] = TileType.Empty;
-    //        }
-    //    }
-    //    for (int x = 0; x < width; x++)
-    //    {
-    //        tiles[x, 0] = TileType.Wall;
-    //        tiles[x, height - 1] = TileType.Wall;
-    //    }
-    //    for (int y = 0; y < height; y++)
-    //    {
-    //        tiles[0, y] = TileType.Wall;
-    //        tiles[width - 1, y] = TileType.Wall;
-    //    }
-    //}
-
     public bool IsWall(int x, int y)
     {
         return tiles[x, y] == TileType.Wall;
+    }
+    public bool IsGoal(int x, int y)
+    {
+        return tiles[x, y] == TileType.Goal;
     }
 
     public override void Draw(ScreenBuffer buffer)

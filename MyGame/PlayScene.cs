@@ -6,7 +6,7 @@ using System.Text;
 namespace Framework.MyGame
 {
 
-    public class PlayScene : Scene
+    class PlayScene : Scene
     {
         private int _score;
         private bool _gameOver;
@@ -20,19 +20,19 @@ namespace Framework.MyGame
             _gameOver = false;
 
             string[] tile1 = {
-            "##########",
-            "#S....#..#",
-            "#..#.....#",
-            "#......#.#",
-            "#....#...#",
-            "#..#.....#",
-            "#....#...#",
-            "#..#.....#",
-            "#....#..$#",
-            "##########",
+            "##################",
+            "#S...............#",
+            "#................#",
+            "#.......#........#",
+            "#................#",
+            "#....#...........#",
+            "#...............##",
+            "#.....#.....$....#",
+            "#...#............#",
+            "##################",
             };
 
-            map = new Map(this);
+            map = new Map(this,tile1.Length, tile1[0].Length);
             map.Create(tile1);
         }
 
