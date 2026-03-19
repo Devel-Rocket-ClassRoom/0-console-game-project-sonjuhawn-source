@@ -1,7 +1,5 @@
 ﻿using Framework.Engine;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Framework.MyGame
 {
@@ -16,27 +14,30 @@ namespace Framework.MyGame
 
         public override void Update(float deltaTime)
         {
-            if(Input.IsKeyDown(ConsoleKey.UpArrow))
+            if (/*움직이는 동안에는 입력해도 움직일수 없음*/true)
             {
-                y--;
-            }
-            if (Input.IsKeyDown(ConsoleKey.DownArrow))
-            {
-                y++;
-            }
-            if (Input.IsKeyDown(ConsoleKey.RightArrow))
-            {
-                x++;
-            }
-            if (Input.IsKeyDown(ConsoleKey.LeftArrow))
-            {
-                x--;
+                if (Input.IsKeyDown(ConsoleKey.UpArrow))
+                {
+                    y--;
+                }
+                if (Input.IsKeyDown(ConsoleKey.DownArrow))
+                {
+                    y++;
+                }
+                if (Input.IsKeyDown(ConsoleKey.RightArrow))
+                {
+                    x++;
+                }
+                if (Input.IsKeyDown(ConsoleKey.LeftArrow))
+                {
+                    x--;
+                }
             }
         }
 
         public override void Draw(ScreenBuffer buffer)
         {
-            throw new NotImplementedException();
+            buffer.SetCell(x, y, '@', ConsoleColor.White);
         }
     }
 
@@ -52,7 +53,7 @@ namespace Framework.MyGame
 
         public override void Draw(ScreenBuffer buffer)
         {
-            throw new NotImplementedException();
+            buffer.SetCell(x, y, '#', ConsoleColor.Cyan);
         }
 
         public override void Update(float deltaTime)
@@ -60,11 +61,34 @@ namespace Framework.MyGame
             throw new NotImplementedException();
         }
     }
+    class Goal : GameObject
+    {
+        private int x, y;
+
+        public Goal(Scene scene, int x, int y) : base(scene)
+        {
+            this.x = x;
+            this.y = y;
+        }
+
+        public override void Update(float deltaTime)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Draw(ScreenBuffer buffer)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+    }
+
     public class MyGame : GameApp
     {
         private readonly SceneManager<Scene> _scenes;
 
-        public MyGame() : base(40, 20)
+        public MyGame() : base(60, 30)
         {
             _scenes = new SceneManager<Scene>();
         }
