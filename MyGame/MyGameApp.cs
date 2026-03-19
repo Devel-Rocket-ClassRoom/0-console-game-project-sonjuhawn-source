@@ -23,6 +23,10 @@ class Player : GameObject
             {
                 break;
             }
+            else if(true/*골에 도달할 시*/)
+            {
+
+            }
             this.x = dx;
             this.y = dy;
         }

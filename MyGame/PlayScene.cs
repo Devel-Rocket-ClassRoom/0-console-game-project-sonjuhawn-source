@@ -32,7 +32,7 @@ namespace Framework.MyGame
             "##########",
             };
 
-            map = new Map();
+            map = new Map(this);
             map.Create(tile1);
         }
 
@@ -53,6 +53,9 @@ namespace Framework.MyGame
 
         public override void Draw(ScreenBuffer buffer)
         {
+            map.Draw(buffer);
+
+
             buffer.WriteText(5, 2, "Score: " + _score, ConsoleColor.White);
 
             if (_gameOver)
