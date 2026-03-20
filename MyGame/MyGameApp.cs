@@ -10,8 +10,9 @@ class Player : GameObject
     private int count = 0;
     public int Count => count;
     private float moveTimer = 0f;
-    private float moveDelay = 0.04f;
+    private float moveDelay = 0.06f;
     private bool moving = false;
+    public bool isGoal { get; private set; } = false;
     Map map;
     public Player(Scene scene, Map map, int x, int y) : base(scene)
     {
@@ -31,7 +32,6 @@ class Player : GameObject
         int nx = x + dirX;
         int ny = y + dirY;
 
-        // 다음 칸이 벽이면 멈춤
         if (map.IsWall(nx, ny))
         {
             moving = false;
@@ -39,6 +39,10 @@ class Player : GameObject
         }
         x = nx;
         y = ny;
+        if(map.IsGoal(nx, ny))
+        {
+            isGoal = true;
+        }
     }
     public override void Update(float deltaTime)
     {
@@ -118,7 +122,7 @@ class Map : GameObject
 
                     case 'S':
                         tiles[x, y] = TileType.Empty;
-                        player = new Player(null, this, x, y);
+                        player = new Player(this.Scene, this, x, y);
                         break;
 
                     case '$':
@@ -182,7 +186,7 @@ public class MyGame : GameApp
 {
     private readonly SceneManager<Scene> _scenes;
 
-    public MyGame() : base(40, 20)
+    public MyGame() : base(40, 30)
     {
         _scenes = new SceneManager<Scene>();
     }

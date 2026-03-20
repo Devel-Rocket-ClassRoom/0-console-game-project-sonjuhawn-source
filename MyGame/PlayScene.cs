@@ -1,7 +1,5 @@
 ﻿using Framework.Engine;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Framework.MyGame
 {
@@ -22,25 +20,35 @@ namespace Framework.MyGame
             _gameOver = false;
 
             string[] tile1 = {
-            "##################",
-            "#S...............#",
-            "#................#",
-            "#.......#........#",
-            "#................#",
-            "#....#...........#",
-            "#...............##",
-            "#.....#.....$....#",
-            "#...#............#",
-            "##################",
+            "############################",
+            "#............#.............#",
+            "#..........................#",
+            "#S...........#.............#",
+            "##.........................#",
+            "#................#.........#",
+            "#...................#......#",
+            "#..........................#",
+            "#..........................#",
+            "#..........................#",
+            "#....................#.....#",
+            "#...........#..............#",
+            "#..........................#",
+            "#..........................#",
+            "#..........................#",
+            "#.........................##",
+            "#...............#..........#",
+            "#..........................#",
+            "#..........................#",
+            "############################"
             };
 
-            map = new Map(this,tile1.Length, tile1[0].Length);
+            map = new Map(this, tile1.Length, tile1[0].Length);
             map.Create(tile1);
         }
 
         public override void Update(float deltaTime)
         {
-            if(Input.IsKeyDown(ConsoleKey.UpArrow)|| Input.IsKeyDown(ConsoleKey.DownArrow)|| Input.IsKeyDown(ConsoleKey.RightArrow)|| Input.IsKeyDown(ConsoleKey.LeftArrow))
+            if ((Input.IsKeyDown(ConsoleKey.UpArrow) || Input.IsKeyDown(ConsoleKey.DownArrow) || Input.IsKeyDown(ConsoleKey.RightArrow) || Input.IsKeyDown(ConsoleKey.LeftArrow)))
             {
                 if (!_timerstart)
                 {
@@ -48,12 +56,15 @@ namespace Framework.MyGame
                     _timer = 0f;
                 }
             }
-            if (_timerstart)
+            if (_timerstart && !_gameOver)
             {
                 _timer += deltaTime;
                 _score = (int)_timer;
             }
-
+            if (map.player.isGoal)
+            {
+                _gameOver = true;
+            }
             if (_gameOver)
             {
                 if (Input.IsKeyDown(ConsoleKey.Enter))
@@ -65,7 +76,7 @@ namespace Framework.MyGame
 
             // 게임 로직...
             map.player.Update(deltaTime);
-            
+
         }
 
         public override void Draw(ScreenBuffer buffer)
@@ -77,7 +88,9 @@ namespace Framework.MyGame
 
             if (_gameOver)
             {
-                buffer.WriteText(10, 10, "Game Over! Press ENTER", ConsoleColor.Red);
+                buffer.WriteTextCentered(8,  "Clear! Time: " + _score, ConsoleColor.Yellow);
+                buffer.WriteTextCentered(9,  "Press ENTER To Play", ConsoleColor.Yellow);
+                buffer.WriteTextCentered(10, " Or End ESC", ConsoleColor.Yellow);
             }
         }
 
