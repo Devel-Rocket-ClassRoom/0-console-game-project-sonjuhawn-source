@@ -10,7 +10,7 @@ class Player : GameObject
     private int count = 0;
     public int Count => count;
     private float moveTimer = 0f;
-    private float moveDelay = 0.06f;
+    private float moveDelay = 0.01f;
     private bool moving = false;
     public bool isGoal { get; private set; } = false;
     Map map;
