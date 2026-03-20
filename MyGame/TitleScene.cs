@@ -23,7 +23,7 @@ namespace Framework.MyGame
 
         public override void Draw(ScreenBuffer buffer)
         {
-            buffer.WriteTextCentered(5, "MY GAME", ConsoleColor.Yellow);
+            buffer.WriteTextCentered(5, "ICD SLICE PUZZLE", ConsoleColor.Blue);
             buffer.WriteTextCentered(8, "Press ENTER to Start", ConsoleColor.Gray);
             buffer.WriteTextCentered(10, "Press ESC to Quit", ConsoleColor.DarkGray);
 

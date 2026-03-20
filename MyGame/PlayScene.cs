@@ -93,7 +93,7 @@ namespace Framework.MyGame
                     break;
                 case 2:
                     map = new Map(this, tile2.Length, tile2[0].Length);
-                    map.Create(tile1);
+                    map.Create(tile2);
                     break;
                 case 3:
                     map = new Map(this, tile3.Length, tile3[0].Length);
