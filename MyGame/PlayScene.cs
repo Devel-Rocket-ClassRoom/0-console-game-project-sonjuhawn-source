@@ -55,6 +55,28 @@ namespace Framework.MyGame
             "#..........#.S.#...........#",
             "############################"
             };
+        string[] tile3 = {
+            "############################",
+            "#..#.......................#",
+            "#....$..................#..#",
+            "#....#.....................#",
+            "#.............#............#",
+            "#........#..........#......#",
+            "#...............#..........#",
+            "#.........................##",
+            "#.......#..................#",
+            "#..................#.......#",
+            "#..........................#",
+            "#....................#.....#",
+            "##...........#.............#",
+            "#................#.........#",
+            "#........#.................#",
+            "#.....................#....#",
+            "#.....#....................#",
+            "#.............#............#",
+            "#....................#..S..#",
+            "############################"
+            };
 
         public event GameAction PlayAgainRequested;
 
@@ -62,11 +84,22 @@ namespace Framework.MyGame
         {
             _score = 0;
             _gameOver = false;
-
             int random = new Random().Next(1, 4);
-
-            map = new Map(this, tile2.Length, tile2[0].Length);
-            map.Create(tile2);
+            switch (random)
+            {
+                case 1:
+                    map = new Map(this, tile1.Length, tile1[0].Length);
+                    map.Create(tile1);
+                    break;
+                case 2:
+                    map = new Map(this, tile2.Length, tile2[0].Length);
+                    map.Create(tile1);
+                    break;
+                case 3:
+                    map = new Map(this, tile3.Length, tile3[0].Length);
+                    map.Create(tile3);
+                    break;
+            }
         }
 
         public override void Update(float deltaTime)
