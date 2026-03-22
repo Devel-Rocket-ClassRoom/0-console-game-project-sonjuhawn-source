@@ -41,7 +41,6 @@ class Map : GameObject
                         break;
 
                     case 'S':
-                        tiles[x, y] = TileType.Empty;
                         player = new Player(this.Scene, this, x, y);
                         break;
 
