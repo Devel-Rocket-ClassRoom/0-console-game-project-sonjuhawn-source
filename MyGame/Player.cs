@@ -8,8 +8,6 @@ class Player : GameObject
     private int x, y;
     private int dirX = 0;
     private int dirY = 0;
-    private int count = 0;
-    public int Count => count;
     private float moveTimer = 0f;
     private float moveDelay = 0.01f;
     private bool moving = false;
